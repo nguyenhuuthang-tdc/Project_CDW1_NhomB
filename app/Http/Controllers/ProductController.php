@@ -108,7 +108,7 @@ class ProductController extends Controller
 		);
         $product = new Product;
         //check file exists
-        if($request->hasFile('image')) {
+        if($request->hasFile('pro_image')) {
             $image = $request->file('pro_image');
             $image_name = $image->getClientOriginalName();
             $target_file = "images/" . $image_name;
@@ -191,8 +191,8 @@ class ProductController extends Controller
             $product->description = $request->description;
             $product->feature = $request->feature;
             //check file exists
-            if($request->hasFile('image')) {
-                $image = $request->file('image');
+            if($request->hasFile('pro_image')) {
+                $image = $request->file('pro_image');
                 $image_name = $image->getClientOriginalName();
                 $target_file = "images/" . $image_name;
                 if(file_exists($target_file)) {
