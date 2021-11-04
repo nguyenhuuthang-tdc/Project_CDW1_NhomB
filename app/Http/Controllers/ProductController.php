@@ -227,9 +227,9 @@ class ProductController extends Controller
         $product = Product::find($id);
         $pro_id = $product->id;
         //xóa protype
-        Protype::destroy($pro_id);
+        Product::destroy($pro_id);
         DB::table('products_sizes')->where('pro_id','=',$pro_id)->delete();
         //
-    	return redirect(url('admin-page/product/list-product'))->with(['typeMsg'=>'success','msg'=>'Xóa thành công']);
+    	return redirect(url('admin-page/product/list-product'))->with(['typeMsg'=>'success','msg'=>'Delete successfully !']);
     }
 }
