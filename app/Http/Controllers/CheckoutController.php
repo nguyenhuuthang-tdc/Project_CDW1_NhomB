@@ -26,7 +26,6 @@ class CheckoutController extends Controller
             $user_id = $user->id;
             $person = Person::find($user_id);
             $customer = Customer::where('person_id','=',$person->id)->first();
-            $cart = session()->has('cart') ? session()->get('cart') : null;
             if($cart == null) {
                 return back()->with(['typeMsg' => 'danger','msg' => 'Your cart is null !!!']);  
             } 
