@@ -290,7 +290,6 @@
         <p class="footer-company">All Rights Reserved. &copy; 2018 <a href="#">ThewayShop</a> Design By :
             <a href="https://html.design/">html design</a></p>
     </div>
-    <!-- End copyright  -->
 
     <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
 
@@ -309,7 +308,7 @@
     <script src="{{ asset('js/baguetteBox.min.js') }}"></script>
     <script src="{{ asset('js/form-validator.min.js') }}"></script>
     <script src="{{ asset('js/contact-form-script.js') }}"></script>
-    <script src="{{ asset('js/custom.js') }}"></script> -->
+    <script src="{{ asset('js/custom.js') }}"></script>
     <script>     
         let btnAdd = document.querySelector('.add-to-cart'); 
         let pro_id = document.querySelector('.product-id').value;
