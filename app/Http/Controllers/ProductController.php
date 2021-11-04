@@ -220,7 +220,6 @@ class ProductController extends Controller
             }
             return back()->with(['typeMsg'=>'success','msg'=>'Edit product successfully !!!']);
         }
-        dd($flag);  
     }
     //getDelete
     public function getDelete($id) {

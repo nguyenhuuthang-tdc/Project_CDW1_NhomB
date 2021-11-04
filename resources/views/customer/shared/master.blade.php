@@ -331,7 +331,7 @@
                 success: function(response) {
                     if(typeof(response.message) == 'undefined') {
                         alert("You must login before !!!");
-                        window.location.replace('http://localhost:8080/Shopping/public/login-page');
+                        window.location.replace('http://localhost:8080/Project_CDW1_NhomB/public/login-page');
                     } else {
                         let result = response.result
                         let grand_quantity = response.total
@@ -344,7 +344,7 @@
                 },
                 error: function(response){      
                     alert("You must login before !!!");
-                    window.location.replace('http://localhost:8080/Shopping/public/login-page');   
+                    window.location.replace('http://localhost:8080/Project_CDW1_NhomB/public/login-page');   
                 }
             })
         }
