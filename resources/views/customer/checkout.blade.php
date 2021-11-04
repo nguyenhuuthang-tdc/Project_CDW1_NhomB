@@ -108,7 +108,7 @@
                                 <div class="d-flex gr-total">
                                     <h5>Grand Price</h5>
                                     <?php
-                                        if($customer->type == 'vip') {
+                                        if($customer->type != 'vip') {
                                             $grand_price += 20000;
                                         }
                                     ?>
