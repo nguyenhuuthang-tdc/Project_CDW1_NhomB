@@ -49,7 +49,7 @@ class CheckoutController extends Controller
             }
             $person = Person::where('account_id','=',$account->id)->first();
             $customer = Customer::where('person_id','=',$person->id)->first();
-            if($customer->type == 'vip') {
+            if($customer->type != 'vip') {
                 $grand_price += 20000;
             }
             $order = new Order();

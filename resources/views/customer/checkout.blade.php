@@ -97,7 +97,7 @@
                                 <hr class="my-1">
                                 <div class="d-flex">
                                     <h4>Shipping Cost</h4>
-                                    <div class="ml-auto font-weight-bold">{{ ($customer->type == 'vip') ? '20,000' : '' }}</div>
+                                    <div class="ml-auto font-weight-bold">{{ ($customer->type != 'vip') ? '20,000' : '' }}</div>
                                 </div>
                                 <hr>
                                 <div class="d-flex">
@@ -108,7 +108,7 @@
                                 <div class="d-flex gr-total">
                                     <h5>Grand Price</h5>
                                     <?php
-                                        if($customer->type == 'vip') {
+                                        if($customer->type != 'vip') {
                                             $grand_price += 20000;
                                         }
                                     ?>
