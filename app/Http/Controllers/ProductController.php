@@ -226,7 +226,7 @@ class ProductController extends Controller
     public function getDelete($id) {
         $product = Product::find($id);
         $pro_id = $product->id;
-        //xóa protype
+        //xóa product
         Product::destroy($pro_id);
         DB::table('products_sizes')->where('pro_id','=',$pro_id)->delete();
         //
