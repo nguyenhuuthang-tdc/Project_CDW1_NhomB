@@ -70,7 +70,7 @@
 @if(session()->get('cart') != null)
 <div class="row my-5">
     <div class="col-lg-12 col-sm-12">
-        <a class="col-12 flex btn hvr-hover">Delete All</a>
+        <a href="{{ route('deleteAllCart') }}" class="col-12 flex btn hvr-hover">Delete All</a>
     </div>
 </div>
 @endif

@@ -135,4 +135,10 @@ class CartController extends Controller
     		return response()->json(array('grand_price' => $grand_price,'result' => $result, 'total' => count($cart),'cart' => $cartComponents, 'message' => 'Delete cart successfully !!!', 'code' => 200));
     	}
     }
+    // delete cart function
+    public function deleteAllCart() {
+        session()->forget('cart');
+        $cart = session()->get('cart');
+        return back()->with(['typeMsg' => 'success','msg' => 'Delete cart successfully !!!']);
+    }
 }
