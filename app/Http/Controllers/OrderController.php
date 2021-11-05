@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Account;
 use App\Product;
 use App\Person;
@@ -52,22 +53,26 @@ class OrderController extends Controller
         if(Auth::guard('account_admin')->check()) {
             $product = new Product();
             $order = Order::where('id','=',$id)->first();
+            if($order == null) {
+                return redirect('admin-page/error');
+            }
             $customer = Customer::where('id','=',$order->customer_id)->first();
             $person = Person::where('id','=',$customer->person_id)->first();
             $account = Account::where('id','=',$person->account_id)->first();
-            if($order == null) {
-                return back()->with(['typeMsg' => 'danger','msg' => 'You dont have this order !!!']);
-            } else {
-                $order_detail = Order_Item::where('order_id','=',$id)->get();
-                return view('admin.order_detail', compact('order','order_detail','product','customer','person','account'));
-            }
+            $order_detail = Order_Item::where('order_id','=',$id)->get();
+            return view('admin.order_detail', compact('order','order_detail','product','customer','person','account'));
         }
     }
     //post change order status for admin 
     public function postStatus(Request $request) {
-        $order_id = $request->order_id;
+        $id = $request->order_id;
+        $subString = substr($request->order_id, 36, -36);
+        $order_id = base64_decode($subString);
+        $order = Order::where(DB::raw('md5(id)'),'=',md5($order_id))->first();
+        if($order == null) {
+            return response()->json(array('typeMsg' => 'danger','msg' => 'Failed action !!!'));
+        }
         $status = $request->status;
-        $order = Order::find($order_id);
         $order->status = $status;
         $order->save();
         return response()->json(array('typeMsg' => 'success','msg' => 'Change status successfully !!!'));

@@ -46,10 +46,28 @@
                         <td class="total-pr">
                             <p>{{ number_format($sub_price,0) }}</p>
                         </td>
-                        <td class="remove-pr cart-update" data-id="{{ $key }}" data-sub-id="{{ $keys }}" style="cursor:pointer;">
+                        <?php
+                        $permitted_chars = '+-=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                        $string1 = substr(str_shuffle($permitted_chars), 0, 36);
+                        $string2 = substr(str_shuffle($permitted_chars), 0, 36);
+                        $string3 = substr(str_shuffle($permitted_chars), 0, 36);
+                        $string4 = substr(str_shuffle($permitted_chars), 0, 36);
+                        $result = $string1 . base64_encode($key) . $string2;
+                        $result2 = $string3 . base64_encode($keys) . $string4;
+                        ?>
+                        <td class="remove-pr cart-update" data-id="{{ $result }}" data-sub-id="{{ $result2 }}" style="cursor:pointer;">
                             <i class="fas fa-edit"></i>
                         </td>
-                        <td class="remove-pr cart-delete" data-id="{{ $key }}" data-sub-id="{{ $keys }}" style="cursor:pointer;">
+                        <?php
+                        $permitted_chars = '+-=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                        $string5 = substr(str_shuffle($permitted_chars), 0, 36);
+                        $string6 = substr(str_shuffle($permitted_chars), 0, 36);
+                        $string7 = substr(str_shuffle($permitted_chars), 0, 36);
+                        $string8 = substr(str_shuffle($permitted_chars), 0, 36);
+                        $result3 = $string5. base64_encode($key) . $string6;
+                        $result4 = $string7 . base64_encode($keys) . $string8;
+                        ?>
+                        <td class="remove-pr cart-delete" data-id="{{ $result3 }}" data-sub-id="{{ $result4 }}" style="cursor:pointer;">
                             <i class="fas fa-times"></i>
                         </td>
                     </tr>

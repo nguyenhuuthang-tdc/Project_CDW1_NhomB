@@ -12,7 +12,13 @@
                             <form class="form-horizontal" role="form" method="post" action="{{ route('postEditProduct') }}" enctype="multipart/form-data">
                                 @csrf
                                 <h1> Edit Product</h1>
-                                <input type="hidden" name="pro_id" value="{{ $product->id }}">
+                                <?php
+                                $permitted_chars = '+-*/\=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                                $string1 = substr(str_shuffle($permitted_chars), 0, 36);
+                                $string2 = substr(str_shuffle($permitted_chars), 0, 36);
+                                $result = $string1 . base64_encode($product->id) . $string2;
+                                ?>
+                                <input type="hidden" name="pro_id" value="{{ $result }}">
                                 <div class="form-group">
                                     <label  class="col-lg-2 control-label">Name</label>
                                     <div class="col-lg-8">

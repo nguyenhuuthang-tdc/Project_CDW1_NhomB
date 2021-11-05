@@ -152,7 +152,11 @@ Route::group(['middleware' => 'CheckCustomerLogin'],function(){
         ]);
     });
 });
-
+//error customer
+Route::get('/error-system',[
+    'as' => 'getErrorCustomer',
+    'uses' => 'PageController@getErrorCustomer'
+]);
 
 //ADMIN LAYOUT
 //LOGIN Admin
@@ -399,4 +403,9 @@ Route::group(['prefix' => 'admin-page', 'middleware' => 'CheckAdminLogin'], func
             'uses' => 'CustomerController@postChange'
         ]);
     }); 
+    //error admin
+    Route::get('/error',[
+        'as' => 'getErrorAdmin',
+        'uses' => 'PageController@getErrorAdmin'
+    ]);
 });

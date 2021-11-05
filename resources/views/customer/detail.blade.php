@@ -35,46 +35,55 @@
                 <div class="col-xl-7 col-lg-7 col-md-6">
                     <div class="single-product-details">
                         <h2>{{ $detail_pro->name }}</h2>
-                        
                         @if($detail_pro->promotion_price != 0)
                         <h5> <del>{{ number_format($detail_pro->price,0) }}</del> {{ number_format($detail_pro->promotion_price,0)}}</h5>                        
                         @else 
                         <h5>{{ number_format($detail_pro->price,0) }}</h5>
                         @endif
-                            <p>
-                                <h4>Short Description:</h4>
-                                <p>{{ $detail_pro->description }}</p>
-                                <ul>
-                                    <li>
-                                        <div class="form-group size-st">
-                                            <label class="size-label">Size</label>
-                                            <select id="basic" class="selectpicker show-tick form-control size">
-                                            <!-- <option value="0">Size</option> -->
-                                            @foreach($sizes as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}<label></label></option>
-                                            @endforeach
-                                            </select>
-                                            <input class="form-control product-id" value="{{ $detail_pro->id }}"  min="1" type="hidden">
-                                        </div>
-                                    </li>
-                                </ul>
-
-                                <div class="price-box-bar">
-                                    <div class="cart-and-bay-btn">
-                                        <a class="btn hvr-hover add-to-cart">Add to cart</a>
-                                        <a class="btn hvr-hover" href="#"><i class="fas fa-heart"></i> Add to wishlist</a>
-                                    </div>
+                        <p>
+                        <h4>Short Description:</h4>
+                        <p>{{ $detail_pro->description }}</p>
+                        <ul>
+                            <li>
+                                <div class="form-group size-st">
+                                    <label class="size-label">Size</label>
+                                    <select id="basic" class="selectpicker show-tick form-control size">
+                                    @foreach($sizes as $item)
+                                    <?php
+                                    $permitted_chars = '123456789';
+                                    $string1 = substr(str_shuffle($permitted_chars), 0, 36);
+                                    $string2 = substr(str_shuffle($permitted_chars), 0, 5);
+                                    $result1 = $string1 . $item->id . $string2;
+                                    ?>
+                                    <option value="{{ $result1 }}">{{ $item->name }}<label></label></option>
+                                    @endforeach
+                                    </select>
+                                    <?php
+                                    $permitted_chars = '+-=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                                    $string3 = substr(str_shuffle($permitted_chars), 0, 36);
+                                    $string4 = substr(str_shuffle($permitted_chars), 0, 36);
+                                    $result2 = $string3 . base64_encode($detail_pro->id) . $string4;
+                                    ?>
+                                    <input class="form-control product-id" value="{{ $result2 }}" type="hidden">
                                 </div>
+                            </li>
+                        </ul>
+                        <div class="price-box-bar">
+                            <div class="cart-and-bay-btn">
+                                <a class="btn hvr-hover add-to-cart">Add to cart</a>
+                                <a class="btn hvr-hover" href="#"><i class="fas fa-heart"></i> Add to wishlist</a>
+                            </div>
+                        </div>
 
-                                <div class="add-to-btn">
-                                    <div class="share-bar">
-                                        <a class="btn hvr-hover" href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a>
-                                        <a class="btn hvr-hover" href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a>
-                                        <a class="btn hvr-hover" href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-                                        <a class="btn hvr-hover" href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a>
-                                        <a class="btn hvr-hover" href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
+                        <div class="add-to-btn">
+                            <div class="share-bar">
+                                <a class="btn hvr-hover" href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+                                <a class="btn hvr-hover" href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a>
+                                <a class="btn hvr-hover" href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                                <a class="btn hvr-hover" href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a>
+                                <a class="btn hvr-hover" href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

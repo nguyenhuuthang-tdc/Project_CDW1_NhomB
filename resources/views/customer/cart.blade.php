@@ -48,10 +48,9 @@
                     alert(data.message)
                     $('#container-cart').html(data.cart);
                 }
-            },
-            error: function(response){
-                alert("You must login before !!!");
-                window.location.replace('http://localhost/Shopping/public/login-page');
+                else {
+                    window.location.replace('http://localhost:8080/Project_CDW1_NhomB/public/error-system');
+                }
             }
         });
     }
@@ -76,10 +75,9 @@
                     alert(data.message)
                     $('#container-cart').html(data.cart);
                 }
-            },
-            error: function(response){
-                alert("You must login before !!!");
-                window.location.replace('http://localhost/Shopping/public/login-page');
+                else {
+                    window.location.replace('http://localhost:8080/Project_CDW1_NhomB/public/error-system');
+                }
             }
         });
     }

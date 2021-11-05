@@ -64,6 +64,9 @@ class ProductController extends Controller
     // return detail page  
     public function getDetail($id) {
         $detail_pro = Product::where('id','=',$id)->first();
+        if($detail_pro == null) {
+            return redirect('/error-system');
+        }
         $pro_id = $detail_pro->id;
         $lienquan_pro = Product::where('protype_id','=',$detail_pro->protype_id)->get();
         $sizes = Product_Size::join('sizes','products_sizes.size_id','=','sizes.id')->where('products_sizes.pro_id','=',$pro_id)->get();
@@ -142,6 +145,9 @@ class ProductController extends Controller
     //get edit product page 
     public function getEdit($id) {
         $product = Product::where('id','=',$id)->first();
+        if($product == null) {
+            return redirect('admin-page/error');
+        }
         $list_size = Size::all();
         return view('admin.product-edit', compact('list_size','product'));
     }
@@ -169,7 +175,12 @@ class ProductController extends Controller
                 'size.required' => 'Please choose size'
 			]
 		);
-        $product = Product::find($request->pro_id);
+        $subString = substr($request->pro_id, 36, -36);
+        $id = base64_decode($subString);
+        $product = Product::where(DB::raw('md5(id)'),'=',md5($id))->first();
+        if($product == null) {
+            return redirect('admin-page/error');
+        }
         $tableProduct = Product::where('id','!=',$product->id)->get();
         $flag = true;
         foreach($tableProduct as $key => $item) {
@@ -223,8 +234,13 @@ class ProductController extends Controller
     }
     //getDelete
     public function getDelete($id) {
-        $product = Product::find($id);
-        $pro_id = $product->id;
+        $subString = substr($id, 36, -36);
+        $id = base64_decode($subString);
+        $product = Product::where(DB::raw('md5(id)'),'=',md5($id))->first();
+        if($product == null) {
+            return redirect('admin-page/error');
+        }
+        $pro_id = $id;
         //xóa product
         Product::destroy($pro_id);
         DB::table('products_sizes')->where('pro_id','=',$pro_id)->delete();

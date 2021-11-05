@@ -331,7 +331,11 @@
                     if(typeof(response.message) == 'undefined') {
                         alert("You must login before !!!");
                         window.location.replace('http://localhost:8080/Project_CDW1_NhomB/public/login-page');
-                    } else {
+                    } 
+                    else if(response.message == 'Invalid data !!!') {
+                        window.location.replace('http://localhost:8080/Project_CDW1_NhomB/public/error-system');
+                    }
+                    else {
                         let result = response.result
                         let grand_quantity = response.total
                         let grand_price = response.grand_price

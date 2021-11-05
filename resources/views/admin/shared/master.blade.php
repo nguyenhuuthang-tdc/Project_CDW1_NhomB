@@ -141,7 +141,7 @@
         alert(response.msg);
       },
       error: function(response) {
-        
+        alert("Failed action");
       }
     })
   }

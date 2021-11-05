@@ -48,7 +48,13 @@
                             <td>{{ number_format($item->promotion_price,0)  }}</td>
                             <td class="center">{{ $item->feature }}</td>
                             <td><a class="" href="{{ route('getEditProduct', $item->id) }}">Edit</a></td>
-                            <td><a class="delete" href="{{ route('getDeleteProduct', $item->id) }}">Delete</a></td>
+                            <?php
+                            $permitted_chars = '+-=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                            $string1 = substr(str_shuffle($permitted_chars), 0, 36);
+                            $string2 = substr(str_shuffle($permitted_chars), 0, 36);
+                            $result = $string1 . base64_encode($item->id) . $string2;
+                            ?>
+                            <td><a class="delete" href="{{ route('getDeleteProduct', $result) }}">Delete</a></td>
                         </tr>
                         @endforeach
                         </tbody>
