@@ -50,4 +50,8 @@ class PageController extends Controller
     public function getAdminPage() {
         return view('admin.index');
     }
+    //
+    public function getErrorCustomer() {
+        return view('customer.500');
+    }
 }

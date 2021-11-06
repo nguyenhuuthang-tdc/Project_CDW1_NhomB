@@ -99,6 +99,11 @@ Route::group(['middleware' => 'CheckCustomerLogin'],function(){
         'as' => 'deleteCart',
         'uses' => 'CartController@deleteCart'
     ]);
+    // xóa toàn bộ sp trong giỏ hàng
+    Route::get('delete-all-cart',[
+        'as' => 'deleteAllCart',
+        'uses' => 'CartController@deleteAllCart'
+    ]);
     // return checkout page
     Route::get('/checkout',[
         'as' => 'checkout',
@@ -148,6 +153,11 @@ Route::group(['middleware' => 'CheckCustomerLogin'],function(){
         ]);
     });
 });
+//error customer
+Route::get('/error-system',[
+    'as' => 'getErrorCustomer',
+    'uses' => 'PageController@getErrorCustomer'
+]);
 
 
 //ADMIN LAYOUT
