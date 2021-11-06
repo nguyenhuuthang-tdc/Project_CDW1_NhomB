@@ -10,6 +10,15 @@ class Person extends Model
     //
     protected $table = 'persons';
     //
+    private static $_instance;
+    //
+    public static function getInstance() {
+        if (!isset(self::$_instance)){
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+    //
     public function account() {
         return $this->belongsTo('App\Account','id','account_id');
     }

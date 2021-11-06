@@ -20,7 +20,7 @@ class ProductController extends Controller
 		$type = Type::all();
         $pr_type = Protype::all();
 		$protype = new Protype();
-        $product = new Product();
+        $product = Product::getInstance();
         $manufacture = new Manufacture();
 		view()->share(['protype'=>$protype,'type'=>$type,'manu'=>$manu,'manufacture' => $manufacture,'pr_type' => $pr_type ,'product'=>$product]);
 	}

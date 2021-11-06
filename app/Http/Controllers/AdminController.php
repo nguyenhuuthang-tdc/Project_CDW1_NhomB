@@ -178,13 +178,13 @@ class AdminController extends Controller
 			]
 		);
         // add account
-        $account = new Account();
+        $account = Account::getInstance();
         $account->user_name = $request->user_name;
         $account->password = bcrypt($request->password);
         $account->role = 'admin';
         $account->save();
         // add person
-        $person = new Person();
+        $person = Person::getInstance();
         $person->account_id = $account->id;
         $person->full_name = $request->fullname;
         $person->gender = ($request->gender == 1) ? 'Male' : 'Female';
@@ -194,7 +194,7 @@ class AdminController extends Controller
         $person->email = $request->email;
         $person->save();
         // add admin 
-        $admin = new Admin();
+        $admin = Admin::getInstance();
         $admin->person_id = $person->id;
         $admin->role_admin = $request->role;
         $admin->save();

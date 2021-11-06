@@ -9,6 +9,14 @@ use Illuminate\Notifications\Notifiable;
 class Account extends Authenticatable
 {
     use Notifiable;
+    private static $_instance;
+    //
+    public static function getInstance() {
+        if (!isset(self::$_instance)){
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
 
     /**
      * The attributes that are mass assignable.
