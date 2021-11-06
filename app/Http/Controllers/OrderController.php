@@ -65,15 +65,25 @@ class OrderController extends Controller
     }
     //post change order status for admin 
     public function postStatus(Request $request) {
-        $id = $request->order_id;
         $subString = substr($request->order_id, 36, -36);
         $order_id = base64_decode($subString);
         $order = Order::where(DB::raw('md5(id)'),'=',md5($order_id))->first();
-        if($order == null) {
+        $subString1 = substr($request->status, 36, -36);
+        $status = base64_decode($subString1);
+        if($order == null || $status == null) {
             return response()->json(array('typeMsg' => 'danger','msg' => 'Failed action !!!'));
         }
-        $status = $request->status;
-        $order->status = $status;
+        if($status == 0) {
+            $order->status = "progress";
+        }
+        else {
+            if($status == 1) {
+                $order->status = "delivery";
+            }
+            else {
+                $order->status = "received";
+            }
+        }
         $order->save();
         return response()->json(array('typeMsg' => 'success','msg' => 'Change status successfully !!!'));
     }

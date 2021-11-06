@@ -66,14 +66,23 @@
                                         $string1 = substr(str_shuffle($permitted_chars), 0, 36);
                                         $string2 = substr(str_shuffle($permitted_chars), 0, 36);
                                         $result = $string1 . base64_encode($order->id) . $string2;
+                                        $string3 = substr(str_shuffle($permitted_chars), 0, 36);
+                                        $string4 = substr(str_shuffle($permitted_chars), 0, 36);
+                                        $result1 = $string3 . base64_encode(0) . $string4;
+                                        $string5 = substr(str_shuffle($permitted_chars), 0, 36);
+                                        $string6 = substr(str_shuffle($permitted_chars), 0, 36);
+                                        $result2 = $string5 . base64_encode(1) . $string6;
+                                        $string7 = substr(str_shuffle($permitted_chars), 0, 36);
+                                        $string8 = substr(str_shuffle($permitted_chars), 0, 36);
+                                        $result3 = $string7 . base64_encode(2) . $string8;
                                         ?>
                                         <select name="status" class="form-control mb-1 status-update" data-order-id="{{ $result }}">
                                             @if($order->status == 'cancel')
                                             <option selected>Cancel</option>
                                             @else
-                                            <option value="progress" {{ ($order->status == 'progress') ? 'selected' : '' }}>Progress</option>
-                                            <option value="delivery" {{ ($order->status == 'delivery') ? 'selected' : '' }}>Delivery</option>
-                                            <option value="received" {{ ($order->status == 'received') ? 'selected' : '' }}>Received</option>
+                                            <option value="{{ $result1 }}" {{ ($order->status == 'progress') ? 'selected' : '' }}>Progress</option>
+                                            <option value="{{ $result2 }}" {{ ($order->status == 'delivery') ? 'selected' : '' }}>Delivery</option>
+                                            <option value="{{ $result3 }}" {{ ($order->status == 'received') ? 'selected' : '' }}>Received</option>
                                             @endif
                                         </select>
                                     </div>

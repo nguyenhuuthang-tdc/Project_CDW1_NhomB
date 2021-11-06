@@ -132,10 +132,20 @@ class AdminController extends Controller
     }
     // post change role admin 
     public function postChange(Request $request) {
-        $admin_id = $request->admin_id;
-        $role = $request->role;
-        $admin = Admin::find($admin_id);
-        $admin->role_admin = $role;
+        $subString = substr($request->admin_id, 36, -36);
+        $admin_id = base64_decode($subString);
+        $admin = Admin::where(DB::raw('md5(id)'),'=',md5($admin_id))->first();
+        $subString1 = substr($request->role, 36, -36);
+        $role = base64_decode($subString1);
+        if($admin == null || $role == null) {
+            return response()->json(array('typeMsg' => 'danger','msg' => 'Failed action !!!'));
+        }
+        if($role == 0) {
+            $admin->role_admin = "manager";
+        }
+        else {
+            $admin->role_admin = "editer";
+        }
         $admin->save();
         return response()->json(array('typeMsg' => 'success','msg' => 'Edit successfully !!!'));
     }
@@ -192,7 +202,12 @@ class AdminController extends Controller
     }
     //delete admin, person, account
     public function getDelete($id) {
-        $admin = Admin::find($id);
+        $subString = substr($id, 36, -36);
+        $id = base64_decode($subString);
+        $admin = Admin::where(DB::raw('md5(id)'),'=',md5($id))->first();
+        if($admin == null) {
+            return redirect('admin-page/error');
+        }
         $person_id = $admin->person_id;
         $person = Person::find($person_id);
         $account_id = $person->account_id;
