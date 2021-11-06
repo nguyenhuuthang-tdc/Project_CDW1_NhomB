@@ -15,10 +15,13 @@ use Auth;
 class OrderController extends Controller
 {
     //CUSTOMER 
+    function __construct() {
+        $product = Product::getInstance();
+		view()->share(['product'=>$product]);
+	}
     // get order detail customer page
     public function getOrderDetail($id) {
         if(Auth::guard('account_customer')->check()) {
-            $product = new Product();
             $account = Auth::guard('account_customer')->user();
             $person = Person::where('account_id','=',$account->id)->first();
             $customer = Customer::where('person_id','=',$person->id)->first();
@@ -27,7 +30,7 @@ class OrderController extends Controller
                 return back()->with(['typeMsg' => 'danger','msg' => 'You dont have this order !!!']);
             } else {
                 $order_detail = Order_Item::where('order_id','=',$id)->get();
-                return view('customer.order_detail', compact('person','order','order_detail','product'));
+                return view('customer.order_detail', compact('person','order','order_detail'));
             }
         }
     }
@@ -51,7 +54,6 @@ class OrderController extends Controller
     //get detail order 
     public function getDetail($id) {
         if(Auth::guard('account_admin')->check()) {
-            $product = new Product();
             $order = Order::where('id','=',$id)->first();
             if($order == null) {
                 return redirect('admin-page/error');
@@ -60,7 +62,7 @@ class OrderController extends Controller
             $person = Person::where('id','=',$customer->person_id)->first();
             $account = Account::where('id','=',$person->account_id)->first();
             $order_detail = Order_Item::where('order_id','=',$id)->get();
-            return view('admin.order_detail', compact('order','order_detail','product','customer','person','account'));
+            return view('admin.order_detail', compact('order','order_detail','customer','person','account'));
         }
     }
     //post change order status for admin 

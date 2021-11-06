@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    private static $_instance;
+    //
+    public static function getInstance() {
+        if (!isset(self::$_instance)){
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
     //
     protected $table = "products";
     //
