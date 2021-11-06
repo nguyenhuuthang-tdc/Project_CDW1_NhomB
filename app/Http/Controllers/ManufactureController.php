@@ -11,6 +11,7 @@ use App\Product;
 use App\Manufacture;
 use App\Product_Size;
 use App\Size;
+use App\FactoryModel;
 
 class ManufactureController extends Controller
 {
@@ -34,7 +35,8 @@ class ManufactureController extends Controller
                 'manu_name.unique' => 'This name already exist',
 			]
 		);
-        $manufacture = new Manufacture();
+        $factory = new FactoryModel();
+        $manufacture = $factory->make('manufacture');
     	$manufacture->manu_name = $request->manu_name;
         $manufacture->version = 1;
     	$manufacture->save();

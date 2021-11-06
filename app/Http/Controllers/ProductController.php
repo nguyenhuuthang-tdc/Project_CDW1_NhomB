@@ -11,17 +11,19 @@ use App\Product;
 use App\Manufacture;
 use App\Product_Size;
 use App\Size;
+use App\FactoryModel;
 
 class ProductController extends Controller
 {
     //
     function __construct() {
+        $factory = new FactoryModel();
 		$manu = Manufacture::all();
 		$type = Type::all();
         $pr_type = Protype::all();
 		$protype = new Protype();
-        $product = new Product();
-        $manufacture = new Manufacture();
+        $product = $factory->make('product');
+        $manufacture = $factory->make('manufacture');
 		view()->share(['protype'=>$protype,'type'=>$type,'manu'=>$manu,'manufacture' => $manufacture,'pr_type' => $pr_type ,'product'=>$product]);
 	}
     //return shop page
