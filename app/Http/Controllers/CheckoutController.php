@@ -26,6 +26,9 @@ class CheckoutController extends Controller
             $user_id = $user->id;
             $person = Person::find($user_id);
             $customer = Customer::where('person_id','=',$person->id)->first();
+            if($cart == null) {
+                return back()->with(['typeMsg' => 'danger','msg' => 'Your cart is null !!!']);  
+            } 
             if(count($cart) <= 0) {
                 return back()->with(['typeMsg' => 'danger','msg' => 'Your cart is null !!!']);  
             } 
@@ -49,7 +52,7 @@ class CheckoutController extends Controller
             }
             $person = Person::where('account_id','=',$account->id)->first();
             $customer = Customer::where('person_id','=',$person->id)->first();
-            if($customer->type == 'vip') {
+            if($customer->type != 'vip') {
                 $grand_price += 20000;
             }
             $order = new Order();

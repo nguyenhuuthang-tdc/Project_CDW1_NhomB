@@ -36,8 +36,12 @@
                             <td class="center">
                                 <?php
                                     $person_id = $person->getPersonByAccountId($item->id)->id;
+                                    $permitted_chars = '+-=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                                    $string1 = substr(str_shuffle($permitted_chars), 0, 36);
+                                    $string2 = substr(str_shuffle($permitted_chars), 0, 36);
+                                    $result = $string1 . base64_encode($customer->getCustomerByPersonId($person_id)->id) . $string2;
                                 ?>
-                                <select class="type-customer" name="type-customer" style="width: 100%;" data-id="{{ $customer->getCustomerByPersonId($person_id)->id }}">
+                                <select class="type-customer" name="type-customer" style="width: 100%;" data-id="{{ $result }}">
                                     <option style="text-align:center;" value="normal" {{ ($customer->getCustomerByPersonId($person_id)->type == 'normal') ? 'selected' : '' }}>Normal</option>
                                     <option style="text-align:center;" value="vip" {{ ($customer->getCustomerByPersonId($person_id)->type == 'vip') ? 'selected' : '' }}>Vip</option>
                                 </select>

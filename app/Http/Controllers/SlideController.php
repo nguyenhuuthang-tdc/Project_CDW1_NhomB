@@ -55,7 +55,12 @@ class SlideController extends Controller
         $request->validate([
             'slide_image' => 'required|image|mimes:jpg,png,jpeg|max:100000',
         ]);
-        $slide = Slide::find($request->slide_id);
+        $subString = substr($request->slide_id, 36, -36);
+        $id = base64_decode($subString);
+        $slide = Slide::where(DB::raw('md5(id)'),'=',md5($id))->first();
+        if($slide == null) {
+            return redirect('admin-page/error');
+        }
         //check file exists
         if($request->hasFile('slide_image')) {
             $image = $request->file('slide_image');
@@ -77,6 +82,12 @@ class SlideController extends Controller
     }
     //get delete slide
     public function getDelete($id) {
+        $subString = substr($id, 36, -36);
+        $id = base64_decode($subString);
+        $slide = Slide::where(DB::raw('md5(id)'),'=',md5($id))->first();
+        if($slide == null) {
+            return redirect('admin-page/error');
+        }
         Slide::destroy($id);
         return redirect(url('admin-page/slide/list-slide'))->with(['typeMsg'=>'success','msg'=>'Delete successfully !']); 
     }

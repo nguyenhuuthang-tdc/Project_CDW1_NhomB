@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Account;
 use App\Product;
 use App\Person;
@@ -179,9 +180,14 @@ class CustomerController extends Controller
     }
     // post change role admin 
     public function postChange(Request $request) {
-        $customer_id = $request->customer_id;
+
+        $subString = substr($request->customer_id, 36, -36);
+        $customer_id = base64_decode($subString);
+        $customer = Customer::where(DB::raw('md5(id)'),'=',md5($customer_id))->first();
+        if($customer == null) {
+            return response()->json(array('typeMsg' => 'danger','msg' => 'Failed action !!!'));
+        }
         $type = $request->type;
-        $customer = Customer::find($customer_id);
         $customer->type = $type;
         $customer->save();
         return response()->json(array('typeMsg' => 'success','msg' => 'Edit successfully !!!'));

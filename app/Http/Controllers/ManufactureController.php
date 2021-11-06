@@ -42,6 +42,9 @@ class ManufactureController extends Controller
     //get edit manufacture page 
     public function getEdit($id) {
         $manufacture = Manufacture::where('id','=',$id)->first();
+        if($manufacture == null) {
+            return redirect('admin-page/error');
+        }
         return view('admin.manufacture-edit', compact('manufacture'));
     }
     //post edit manufacture 
@@ -54,7 +57,12 @@ class ManufactureController extends Controller
                 'manu_name.required' => 'Please enter manu name',
 			]
 		);
-        $manufacture = Manufacture::find($request->manu_id);
+        $subString = substr($request->manu_id, 36, -36);
+        $id = base64_decode($subString);
+        $manufacture = Manufacture::where(DB::raw('md5(id)'),'=',md5($id))->first();
+        if($manufacture == null) {
+            return redirect('admin-page/error');
+        }
         $tableManufacture = Manufacture::where('id','!=',$manufacture->id)->get();
         $flag = true;
         foreach($tableManufacture as $key => $item) {
@@ -74,7 +82,13 @@ class ManufactureController extends Controller
     }
     //get Delete manufacture
     public function getDelete($id) {
-        //check if protype has product
+        $subString = substr($id, 36, -36);
+        $id = base64_decode($subString);
+        $manufacture = Manufacture::where(DB::raw('md5(id)'),'=',md5($id))->first();
+        if($manufacture == null) {
+            return redirect('admin-page/error');
+        }
+        //check if manufacture has product
         $product = Product::where('manu_id','=',$id)->get();
         if(count($product) != 0) {
             return back()->with(['typeMsg'=>'danger','msg'=>'products still exist']);

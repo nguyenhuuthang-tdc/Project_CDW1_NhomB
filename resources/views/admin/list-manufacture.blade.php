@@ -32,7 +32,13 @@
                         <tr class="">
                             <td class="center">{{ $item->manu_name }}</td>
                             <td><a class="" href="{{ route('getEditManufacture', $item->id) }}">Edit</a></td>
-                            <td><a class="delete" href="{{ route('getDeleteManufacture', $item->id) }}">Delete</a></td>
+                            <?php
+                            $permitted_chars = '+-=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                            $string1 = substr(str_shuffle($permitted_chars), 0, 36);
+                            $string2 = substr(str_shuffle($permitted_chars), 0, 36);
+                            $result = $string1 . base64_encode($item->id) . $string2;
+                            ?>
+                            <td><a class="delete" href="{{ route('getDeleteManufacture', $result) }}">Delete</a></td>
                         </tr>
                         @endforeach
                         </tbody>

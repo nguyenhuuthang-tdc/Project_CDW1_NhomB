@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Account;
 use App\Person;
 use App\Admin;
@@ -50,8 +51,12 @@ class AdminController extends Controller
                 'phone.digits'=>'Number phone is invalid',
 			]
 		);
-        $id = $request->id;
-        $person = Person::find($id);
+        $subString = substr($request->id, 36, -36);
+        $id = base64_decode($subString);
+        $person = Person::where(DB::raw('md5(id)'),'=',md5($id))->first();
+        if($person == null) {
+            return redirect('admin-page/error');
+        }
         $tablePerson = Person::where('id','!=',$id)->get();
         $flag = true;
         foreach($tablePerson as $key => $value) {

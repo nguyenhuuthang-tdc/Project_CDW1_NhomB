@@ -61,7 +61,13 @@
                             <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-4 col-sm-7">
-                                        <select name="status" class="form-control mb-1 status-update" data-order-id="{{ $order->id }}">
+                                        <?php
+                                        $permitted_chars = '+-=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                                        $string1 = substr(str_shuffle($permitted_chars), 0, 36);
+                                        $string2 = substr(str_shuffle($permitted_chars), 0, 36);
+                                        $result = $string1 . base64_encode($order->id) . $string2;
+                                        ?>
+                                        <select name="status" class="form-control mb-1 status-update" data-order-id="{{ $result }}">
                                             @if($order->status == 'cancel')
                                             <option selected>Cancel</option>
                                             @else

@@ -61,6 +61,9 @@ class ProtypeController extends Controller
     //get edit protype page 
     public function getEdit($id) {
         $protype = Protype::where('id','=',$id)->first();
+        if($protype == null) {
+            return redirect('admin-page/error');
+        }
         $list_type = Type::all();
         return view('admin.protype-edit', compact('list_type','protype'));
     }
@@ -78,7 +81,12 @@ class ProtypeController extends Controller
                 'image.max' => 'This image is too large',
 			]
 		);
-        $protype = Protype::find($request->protype_id);
+        $subString = substr($request->protype_id, 36, -36);
+        $id = base64_decode($subString);
+        $protype = Protype::where(DB::raw('md5(id)'),'=',md5($id))->first();
+        if($protype == null) {
+            return redirect('admin-page/error');
+        }
         $tableProtype = Protype::where('id','!=',$protype->id)->get();
         $flag = true;
         foreach($tableProtype as $key => $item) {
@@ -116,6 +124,12 @@ class ProtypeController extends Controller
     }
     //get Delete protype
     public function getDelete($id) {
+        $subString = substr($id, 36, -36);
+        $id = base64_decode($subString);
+        $protype = Protype::where(DB::raw('md5(id)'),'=',md5($id))->first();
+        if($protype == null) {
+            return redirect('admin-page/error');
+        }
         //check if protype has product
         $product = Product::where('protype_id','=',$id)->get();
         if(count($product) != 0) {

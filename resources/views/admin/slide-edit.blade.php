@@ -12,7 +12,13 @@
                         <form class="form-horizontal" role="form" method="post" action="{{ route('postEditSlide') }}" enctype="multipart/form-data">
                             @csrf
                             <h1> Edit Slide</h1>
-                            <input type="hidden" name="slide_id" value="{{ $slide->id }}">
+                            <?php
+                            $permitted_chars = '+-=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                            $string1 = substr(str_shuffle($permitted_chars), 0, 36);
+                            $string2 = substr(str_shuffle($permitted_chars), 0, 36);
+                            $result = $string1 . base64_encode($slide->id) . $string2;
+                            ?>
+                            <input type="hidden" name="slide_id" value="{{ $result }}">
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label">Image</label>
                                 <div class="col-lg-4">
