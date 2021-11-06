@@ -13,6 +13,7 @@
                             @csrf
                             <h1> Edit Manufacture</h1>
                             <input type="hidden" name="manu_id" value="{{ $manufacture->id }}">
+                            <input type="hidden" name="version" value="{{ $manufacture->version }}">
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label">Manufacture Name</label>
                                 <div class="col-lg-8">

@@ -63,9 +63,9 @@ class Protype extends Seeder {
 class Manufacture extends Seeder {
     public function run() {
         DB::table('manufactures')->insert([
-            ['manu_name'=>'Supreme'],
-            ['manu_name'=>'Adidas'],
-            ['manu_name'=>'Nike']
+            ['manu_name'=>'Supreme', 'version'=> 1],
+            ['manu_name'=>'Adidas', 'version'=> 1],
+            ['manu_name'=>'Nike', 'version'=> 1]
         ]);
     }
 }

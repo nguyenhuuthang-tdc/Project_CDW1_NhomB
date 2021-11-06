@@ -16,6 +16,7 @@ class CreateManufacturesTable extends Migration
         Schema::create('manufactures', function (Blueprint $table) {
             $table->id();
             $table->string('manu_name');
+            $table->integer('version');
             $table->timestamps();
         });
     }

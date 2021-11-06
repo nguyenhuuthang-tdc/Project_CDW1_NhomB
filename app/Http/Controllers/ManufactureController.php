@@ -36,6 +36,7 @@ class ManufactureController extends Controller
 		);
         $manufacture = new Manufacture();
     	$manufacture->manu_name = $request->manu_name;
+        $manufacture->version = 1;
     	$manufacture->save();
     	return back()->with(['typeMsg'=>'success','msg'=>'Add manufacture successfully !!!']);
     }
@@ -46,41 +47,60 @@ class ManufactureController extends Controller
     }
     //post edit manufacture 
     public function postEdit(Request $request) {
-        $this->validate($request,
-			[
-                'manu_name' => 'required',
-			],
-			[
-                'manu_name.required' => 'Please enter manu name',
-			]
-		);
-        $manufacture = Manufacture::find($request->manu_id);
-        $tableManufacture = Manufacture::where('id','!=',$manufacture->id)->get();
-        $flag = true;
-        foreach($tableManufacture as $key => $item) {
-            if($request->manu_name == $item->manu_name) {
-                $flag = false;
-                break;
+        $manu = Manufacture::find($request->input('manu_id'));
+        $newVersion = $manu['version'];
+        // var_dump($newVersion) ;
+        // var_dump($request->input('version'));
+        // die();
+        if($newVersion == $request->input('version')){
+            $this->validate($request,
+                [
+                    'manu_name' => 'required',
+                ],
+                [
+                    'manu_name.required' => 'Please enter manu name',
+                ]
+            );
+            $manufacture = Manufacture::find($request->manu_id);
+            $tableManufacture = Manufacture::where('id','!=',$manufacture->id)->get();
+            $flag = true;
+            foreach($tableManufacture as $key => $item) {
+                if($request->manu_name == $item->manu_name) {
+                    $flag = false;
+                    break;
+                }
             }
+            if($flag == false) {
+                return back()->with(['typeMsg'=>'danger','msg'=>'This name already exist!!!']);
+            }
+            else {
+                $manufacture->manu_name = $request->manu_name;
+                $manufacture->version = $request->input('version')+1;
+                $manufacture->save();
+                return back()->with(['typeMsg'=>'success','msg'=>'Edit manufacture successfully !!!']);
+            } 
         }
-        if($flag == false) {
-            return back()->with(['typeMsg'=>'danger','msg'=>'This name already exist!!!']);
+        else{
+            return back()->with(['typeMsg'=>'danger','msg'=>'Update manufacture failed !!!']);
         }
-        else {
-            $manufacture->manu_name = $request->manu_name;
-            $manufacture->save();
-            return back()->with(['typeMsg'=>'success','msg'=>'Edit manufacture successfully !!!']);
-        }
+        
     }
     //get Delete manufacture
-    public function getDelete($id) {
+    public function getDelete($id, Request $request) {
         //check if protype has product
-        $product = Product::where('manu_id','=',$id)->get();
-        if(count($product) != 0) {
-            return back()->with(['typeMsg'=>'danger','msg'=>'products still exist']);
-        } else {
-            Manufacture::destroy($id);
-            return redirect(url('admin-page/manufacture/list-manufacture'))->with(['typeMsg'=>'success','msg'=>'Delete successfully !']);
-        }    
+        $manu = Manufacture::find($id);
+    
+        if(!empty($manu['id'])){
+            $product = Product::where('manu_id','=',$id)->get();
+            if(count($product) != 0) {
+                return back()->with(['typeMsg'=>'danger','msg'=>'products still exist']);
+            } else {
+                Manufacture::destroy($id);
+                return redirect(url('admin-page/manufacture/list-manufacture'))->with(['typeMsg'=>'success','msg'=>'Delete successfully !']);
+            }    
+        }
+        else{
+            return back()->with(['typeMsg'=>'danger','msg'=>'Delete manufacture failed !!! Data dose not exist!!!']);
+        }
     }
 }
