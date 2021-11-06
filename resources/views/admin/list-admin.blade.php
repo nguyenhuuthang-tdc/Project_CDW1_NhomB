@@ -35,13 +35,25 @@
                             <td>{{ $item['user_name'] }}</td>
                             <td>{{ $item['full_name'] }}</td>
                             <td>**********</td>
+                            <?php
+                            $permitted_chars = '+-=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                            $string1 = substr(str_shuffle($permitted_chars), 0, 36);
+                            $string2 = substr(str_shuffle($permitted_chars), 0, 36);
+                            $result = $string1 . base64_encode(0) . $string2;
+                            $string3 = substr(str_shuffle($permitted_chars), 0, 36);
+                            $string4 = substr(str_shuffle($permitted_chars), 0, 36);
+                            $result1 = $string3 . base64_encode(1) . $string4;
+                            $string5 = substr(str_shuffle($permitted_chars), 0, 36);
+                            $string6 = substr(str_shuffle($permitted_chars), 0, 36);
+                            $result2 = $string5 . base64_encode($item['admin_id']) . $string6;
+                            ?>
                             <td class="center">
-                                <select class="role-admin" name="role-admin" style="width: 100%;" data-id="{{ $item['admin_id'] }}">
-                                    <option value="manager" {{ ($item['role_admin'] == 'manager') ? 'selected' : '' }}>Manager</option>
-                                    <option value="editer" {{ ($item['role_admin'] == 'editer') ? 'selected' : '' }}>Editer</option>
+                                <select class="role-admin" name="role-admin" style="width: 100%;" data-id="{{ $result2 }}">
+                                    <option value="{{ $result }}" {{ ($item['role_admin'] == 'manager') ? 'selected' : '' }}>Manager</option>
+                                    <option value="{{ $result1 }}" {{ ($item['role_admin'] == 'editer') ? 'selected' : '' }}>Editer</option>
                                 </select>
                             </td>
-                            <td><a class="delete" href="{{ route('getDeleteAdmin', $item['admin_id']) }}">Delete</a></td>
+                            <td><a class="delete" href="{{ route('getDeleteAdmin', $result2) }}">Delete</a></td>
                         </tr>
                         @endforeach
                         </tbody>
