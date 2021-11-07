@@ -161,9 +161,9 @@ class Product_Size extends Seeder {
 class Account extends Seeder {
     public function run() {
         DB::table('accounts')->insert([
-            ['user_name'=>'thang1234','password'=>'$2y$10$wupFzqBkcoctPlIQsrB9ueGztZgd0Kyvf2zAFCyxQLxFitaJ1AiBK','role'=>'customer'],
-            ['user_name'=>'manager1','password'=>'$2y$10$wupFzqBkcoctPlIQsrB9ueGztZgd0Kyvf2zAFCyxQLxFitaJ1AiBK','role'=>'admin'],
-            ['user_name'=>'admin1','password'=>'$2y$10$wupFzqBkcoctPlIQsrB9ueGztZgd0Kyvf2zAFCyxQLxFitaJ1AiBK','role'=>'admin'],
+            ['user_name'=>'thang1234','password'=>'$2y$10$wTLIc9H2fmYcfz8mccHsHOWHRaQUHZULQhBRBshFZ0HXDZ2jFNWW6','role'=>'customer'],
+            ['user_name'=>'manager1','password'=>'$2y$10$wTLIc9H2fmYcfz8mccHsHOWHRaQUHZULQhBRBshFZ0HXDZ2jFNWW6','role'=>'admin'],
+            ['user_name'=>'admin1','password'=>'$2y$10$wTLIc9H2fmYcfz8mccHsHOWHRaQUHZULQhBRBshFZ0HXDZ2jFNWW6','role'=>'admin'],
         ]);
     }
 }
