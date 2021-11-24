@@ -18,6 +18,7 @@
         <div class="row">
             <div class="col-lg-5 col-sm-12">
                 <div class="contact-info-left">
+                    <!-- xuat thong tin khach hang -->
                     <h2>Profile</h2>
                     <p>Full name : {{ $person->full_name }}</p>
                     <p>Gender : {{ $person->gender }}</p>
