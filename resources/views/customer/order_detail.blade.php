@@ -13,6 +13,7 @@
         </div>
     </div>
 </div>
+<!-- giao diện chi tiết cho đơn hàng -->
 <div class="contact-box-main">
     <div class="container">
         <div class="row">
@@ -46,6 +47,7 @@
                     <div class="row mb-1">
                         <h4 class="col-md-3">Status</h4>
                         <div class="col-md-4">
+                            <!--Kiểm tra trạng thái đơn hàng  -->
                             <?php
                                 if($order->status == 'progress') {
                                     $color = 'warning';
