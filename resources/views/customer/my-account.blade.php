@@ -51,6 +51,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                            <!-- Xuất tất cả các đơn hàng -->
                         @foreach($order as $key => $item)
                         <tr class="">
                             <td>{{ $item->id }}</td>
