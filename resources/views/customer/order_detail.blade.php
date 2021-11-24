@@ -62,6 +62,7 @@
                             <div class="btn btn-{{ $color }}">{{ $order->status }}</div>
                         </div>
                     </div>
+                    <!-- Đổi dữ liệu chi tiết đơn hàng -->
                     <div class="row" style="margin-top:20px;">
                         <h4 class="col-md-3">List Product</h4>
                         <div style="max-height: 300px;overflow-y: scroll;">
