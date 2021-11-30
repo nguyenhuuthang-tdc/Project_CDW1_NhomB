@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 
 class Account extends Authenticatable
 {
@@ -46,6 +48,15 @@ class Account extends Authenticatable
 
     public function person() {
         return $this->hasOne(Person::class);
+    }
+    //
+    public function comment() {
+        return $this->hasMany('App\Comment','id','account_id');
+    }
+    //get Account by Id
+    public function getAccountById($account_id) {
+        $account = DB::table('accounts')->where('id','=',$account_id)->first();
+        return $account;
     }
 }
 ?>

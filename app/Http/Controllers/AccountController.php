@@ -28,20 +28,20 @@ class AccountController extends Controller
 			]
 		);
         $account = Account::where('user_name','=',$request->username)->first();
-        if($account->role == "customer") {
-            $data = [
-                'user_name' => $request->username,
-                'password' => $request->password,
-            ];
-            if(Auth::guard('account_customer')->attempt($data)) {
+        $data = [
+            'user_name' => $request->username,
+            'password' => $request->password,
+        ];
+        if(Auth::guard('account_customer')->attempt($data)) {
+            if($account->role == "customer") {
                 return redirect('home');
             }
             else {
-                return back()->with(['typeMsg' => 'danger','msg' => 'Login failed !!!']);
+                return back()->with(['typeMsg' => 'danger','msg' => 'You are not customer, please login at Admin page !!!']);
             }
         }
         else {
-            return back()->with(['typeMsg' => 'danger','msg' => 'You are not customer, please login at Admin page !!!']);
+            return back()->with(['typeMsg' => 'danger','msg' => 'Login failed !!!']);
         }    
     }
     public function logoutCustomer()

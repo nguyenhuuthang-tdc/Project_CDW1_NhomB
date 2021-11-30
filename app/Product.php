@@ -20,6 +20,7 @@ class Product extends Model
     public function protype() {
         return $this->belongsTo('App\Protype','id','protype_id');
     }
+    //
     public function manufacture() {
         return $this->belongsTo('App\Manufacture','id','manu_id');
     }
@@ -30,6 +31,10 @@ class Product extends Model
     //
     public function order_item() {
         return $this->hasMany('App\Order_Item','id','product_id');
+    }
+    //
+    public function comment() {
+        return $this->hasMany('App\Comment','id','pro_id');
     }
     //top-feature or best-seller
     public function featureOrSeller($item,$sell_q){

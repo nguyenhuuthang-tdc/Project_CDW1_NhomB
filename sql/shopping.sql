@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3308
--- Thời gian đã tạo: Th10 07, 2021 lúc 01:02 AM
+-- Thời gian đã tạo: Th10 30, 2021 lúc 02:54 AM
 -- Phiên bản máy phục vụ: 5.7.31
 -- Phiên bản PHP: 7.2.33
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `accounts`
@@ -47,8 +47,7 @@ INSERT INTO `accounts` (`id`, `user_name`, `password`, `role`, `remember_token`,
 (1, 'thang1234', '$2y$10$wTLIc9H2fmYcfz8mccHsHOWHRaQUHZULQhBRBshFZ0HXDZ2jFNWW6', 'customer', NULL, NULL, NULL),
 (2, 'manager1', '$2y$10$wTLIc9H2fmYcfz8mccHsHOWHRaQUHZULQhBRBshFZ0HXDZ2jFNWW6', 'admin', NULL, NULL, NULL),
 (3, 'admin1', '$2y$10$wTLIc9H2fmYcfz8mccHsHOWHRaQUHZULQhBRBshFZ0HXDZ2jFNWW6', 'admin', NULL, NULL, NULL),
-(4, 'admin2', '$2y$10$Lhlq/s.wpmJFCcqeKZN50uSKQpMfIx2whXVUt/XaasUsKmuXEoSai', 'admin', NULL, '2021-11-06 17:59:40', '2021-11-06 17:59:40'),
-(5, 'admin3', '$2y$10$cfp82CoZVLm4spN/LlC1OOV8tgqw87u7JB0ulFDUbCt8bq0marlka', 'admin', NULL, '2021-11-06 18:00:19', '2021-11-06 18:00:19');
+(4, 'thangdzvc', '$2y$10$rhLhySsM/mAguMSNfGL0ueLP8SKpY0tzUHGl9tFY.UlfRUpjPUOz6', 'customer', NULL, '2021-11-29 19:39:42', '2021-11-29 19:39:42');
 
 -- --------------------------------------------------------
 
@@ -65,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `admins` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `admins_person_id_foreign` (`person_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `admins`
@@ -73,9 +72,35 @@ CREATE TABLE IF NOT EXISTS `admins` (
 
 INSERT INTO `admins` (`id`, `person_id`, `role_admin`, `created_at`, `updated_at`) VALUES
 (1, 2, 'manager', NULL, NULL),
-(2, 3, 'editer', NULL, NULL),
-(3, 4, 'editer', '2021-11-06 17:59:40', '2021-11-06 18:00:22'),
-(4, 5, 'editer', '2021-11-06 18:00:19', '2021-11-06 18:00:19');
+(2, 3, 'editer', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE IF NOT EXISTS `comments` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `pro_id` int(10) UNSIGNED NOT NULL,
+  `account_id` int(10) UNSIGNED NOT NULL,
+  `content` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `comments_pro_id_foreign` (`pro_id`),
+  KEY `comments_account_id_foreign` (`account_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `comments`
+--
+
+INSERT INTO `comments` (`id`, `pro_id`, `account_id`, `content`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'alo', '2021-11-29 19:31:15', '2021-11-29 19:31:15'),
+(2, 1, 1, 'ffff', '2021-11-29 19:34:13', '2021-11-29 19:34:13'),
+(3, 1, 4, 'Sản phẩm khá là yomost :v', '2021-11-29 19:40:14', '2021-11-29 19:40:14');
 
 -- --------------------------------------------------------
 
@@ -92,14 +117,15 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `customers_person_id_foreign` (`person_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `customers`
 --
 
 INSERT INTO `customers` (`id`, `person_id`, `type`, `created_at`, `updated_at`) VALUES
-(1, 1, 'normal', NULL, NULL);
+(1, 1, 'normal', NULL, NULL),
+(2, 4, 'normal', '2021-11-29 19:39:42', '2021-11-29 19:39:42');
 
 -- --------------------------------------------------------
 
@@ -137,27 +163,28 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=124 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(65, '2014_10_12_100000_create_password_resets_table', 1),
-(66, '2021_07_19_030041_create_slides_table', 1),
-(67, '2021_07_20_022324_create_types_table', 1),
-(68, '2021_07_20_022514_create_protypes_table', 1),
-(69, '2021_07_20_022542_create_products_table', 1),
-(70, '2021_07_23_131241_create_manufactures_table', 1),
-(71, '2021_07_27_130928_create_sizes_table', 1),
-(72, '2021_07_27_131250_create_products_sizes_table', 1),
-(73, '2021_09_15_071822_create_accounts_table', 1),
-(74, '2021_09_15_071903_create_persons_table', 1),
-(75, '2021_09_15_071926_create_customers_table', 1),
-(76, '2021_10_21_113345_create_admins_table', 1),
-(77, '2021_10_28_114354_create_orders_table', 1),
-(78, '2021_10_28_114444_create_order_items_table', 1);
+(109, '2014_10_12_100000_create_password_resets_table', 1),
+(110, '2021_07_19_030041_create_slides_table', 1),
+(111, '2021_07_20_022324_create_types_table', 1),
+(112, '2021_07_20_022514_create_protypes_table', 1),
+(113, '2021_07_20_022542_create_products_table', 1),
+(114, '2021_07_23_131241_create_manufactures_table', 1),
+(115, '2021_07_27_130928_create_sizes_table', 1),
+(116, '2021_07_27_131250_create_products_sizes_table', 1),
+(117, '2021_09_15_071822_create_accounts_table', 1),
+(118, '2021_09_15_071903_create_persons_table', 1),
+(119, '2021_09_15_071926_create_customers_table', 1),
+(120, '2021_10_21_113345_create_admins_table', 1),
+(121, '2021_10_28_114354_create_orders_table', 1),
+(122, '2021_10_28_114444_create_order_items_table', 1),
+(123, '2021_11_29_123236_create_comments_table', 1);
 
 -- --------------------------------------------------------
 
@@ -177,14 +204,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `orders_customer_id_foreign` (`customer_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `orders`
---
-
-INSERT INTO `orders` (`id`, `customer_id`, `total_quantity`, `grand_price`, `note`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 5, 1320000, '', 'progress', '2021-11-06 18:01:45', '2021-11-06 18:01:45');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -206,15 +226,7 @@ CREATE TABLE IF NOT EXISTS `order_items` (
   PRIMARY KEY (`id`),
   KEY `order_items_order_id_foreign` (`order_id`),
   KEY `order_items_product_id_foreign` (`product_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `order_items`
---
-
-INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `price_sell`, `size`, `quantity`, `sub_price`, `created_at`, `updated_at`) VALUES
-(1, 1, 10, 260000, 'XL', 4, 1040000, '2021-11-06 18:01:45', '2021-11-06 18:01:45'),
-(2, 1, 10, 260000, 'L', 1, 260000, '2021-11-06 18:01:45', '2021-11-06 18:01:45');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -249,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `persons` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `persons_account_id_foreign` (`account_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `persons`
@@ -259,8 +271,7 @@ INSERT INTO `persons` (`id`, `account_id`, `full_name`, `gender`, `address`, `da
 (1, 1, 'Nguyễn Hữu Thắng', 'Male', 'K3, Tân Hiệp, Kiên Giang', '2000-01-01', '0844370344', 'nguyenhuuthang12c8@gmail.com', NULL, NULL),
 (2, 2, 'Thắng Nguyễn', 'Male', 'Thủ Đức', '2005-01-01', '0844370255', 'nguyenhuuthang1609@gmail.com', NULL, NULL),
 (3, 3, 'Phan Ngọc Luân', 'Male', 'Vũng Tàu', '2009-01-01', '0123456789', 'nguyenhuuthang12c4@gmail.com', NULL, NULL),
-(4, 4, 'Đào Văn Chung', 'Male', 'Xuyên Mộc', '2001-12-16', '0919123456', 'vanchung@gmail.com', '2021-11-06 17:59:40', '2021-11-06 17:59:40'),
-(5, 5, 'Lê Công Đức Mạnh', 'Male', 'Xuyên Mộc', '2001-12-08', '0987123412', 'manh@gmail.com', '2021-11-06 18:00:19', '2021-11-06 18:00:19');
+(4, 4, 'Nguyễn Hữu Thắng', 'Male', 'K3, Tân Hiệp, Kiên Giang', '2010-12-28', '0844370642', 'aaa113@gmail.com', '2021-11-29 19:39:42', '2021-11-29 19:39:42');
 
 -- --------------------------------------------------------
 
@@ -285,26 +296,21 @@ CREATE TABLE IF NOT EXISTS `products` (
   PRIMARY KEY (`id`),
   KEY `products_manu_id_foreign` (`manu_id`),
   KEY `products_protype_id_foreign` (`protype_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `products`
 --
 
 INSERT INTO `products` (`id`, `manu_id`, `protype_id`, `name`, `pro_image`, `origin`, `price`, `promotion_price`, `description`, `feature`, `created_at`, `updated_at`) VALUES
-(19, 3, 5, 'Brown wallets', 'georgi-dyulgerov-j_z2b7Xi3wg-unsplash.jpg', 'Viet Nam', 760000, 600000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 1, '2021-11-06 17:55:26', '2021-11-06 17:55:26'),
-(20, 3, 5, 'Big bag', 'jan-de-keijzer-M0g1sV4SEdo-unsplash.jpg', 'Viet Nam', 450000, 120000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 1, '2021-11-06 17:56:25', '2021-11-06 17:56:25'),
-(9, 1, 1, 'Black Shirt', 'mahdi-bafande-ZSScmyIxEXQ-unsplash.jpg', 'Viet Nam', 500000, 400000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 1, '2021-11-06 17:41:22', '2021-11-06 17:41:22'),
-(10, 1, 1, 'Brown Shirt', 'brooke-cagle-wKOKidNT14w-unsplash.jpg', 'Korea', 450000, 260000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 1, '2021-11-06 17:42:39', '2021-11-06 17:42:39'),
-(11, 1, 1, 'Flower Shirts', 'caique-silva-rD3muAr7ngY-unsplash.jpg', 'China', 215000, 100000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 0, '2021-11-06 17:43:46', '2021-11-06 17:43:46'),
-(12, 1, 1, 'White Shirt', 'rui-silvestre-hAMJpesMeDE-unsplash.jpg', 'Japan', 410000, 120000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 1, '2021-11-06 17:44:43', '2021-11-06 17:44:43'),
-(13, 3, 2, 'T-shirts long hand', 'bewakoof-com-official-EwM1EqeIYzk-unsplash.jpg', 'Viet Nam', 120000, 110000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 1, '2021-11-06 17:48:05', '2021-11-06 17:48:05'),
-(14, 3, 2, 'Yellow t-shirt', 'gian-cescon-00ByEXKcSkA-unsplash.jpg', 'Viet Nam', 810000, 700000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 1, '2021-11-06 17:49:01', '2021-11-06 17:49:01'),
-(15, 3, 4, 'Red Nike', 'revolt-164_6wVEHfI-unsplash.jpg', 'America', 1250000, 1000000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 1, '2021-11-06 17:51:02', '2021-11-06 17:51:02'),
-(16, 2, 4, 'Converse', 'camila-damasio-mWYhrOiAgmA-unsplash.jpg', 'Korea', 870000, 800000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 1, '2021-11-06 17:52:02', '2021-11-06 17:52:02'),
-(17, 2, 4, 'Brown Shoes', 'maksim-larin-NOpsC3nWTzY-unsplash.jpg', 'Viet Nam', 3000000, 2500000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 1, '2021-11-06 17:52:54', '2021-11-06 17:52:54'),
-(18, 2, 4, 'Red Jordan', 'paul-volkmer-updW-QUccFE-unsplash.jpg', 'Viet Nam', 4870000, 3500000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 1, '2021-11-06 17:53:45', '2021-11-06 17:53:45'),
-(21, 1, 5, 'Japan Wallet', 'georgi-dyulgerov-RFCw8jlT1oQ-unsplash.jpg', 'Japan', 450000, 400000, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 1, '2021-11-06 17:58:29', '2021-11-06 17:58:29');
+(1, 1, 1, 'Áo Khoác Đen', 'img-pro-01.jpg', 'VietNam', 400000, 300000, 'Nam sagittis a augue eget scelerisque. Nullam lacinia consectetur sagittis. Nam sed neque id eros fermentum dignissim quis at tortor. Nullam ultricies urna quis sem sagittis pharetra. Nam erat turpis, cursus in ipsum at, tempor imperdiet metus. In interdum id nulla tristique accumsan. Ut semper in quam nec pretium. Donec egestas finibus suscipit. Curabitur tincidunt convallis arcu.', 0, NULL, NULL),
+(2, 2, 1, 'Váy đen', 'img-pro-02.jpg', 'USA', 520000, 400000, 'Nam sagittis a augue eget scelerisque. Nullam lacinia consectetur sagittis. Nam sed neque id eros fermentum dignissim quis at tortor. Nullam ultricies urna quis sem sagittis pharetra. Nam erat turpis, cursus in ipsum at, tempor imperdiet metus. In interdum id nulla tristique accumsan. Ut semper in quam nec pretium. Donec egestas finibus suscipit. Curabitur tincidunt convallis arcu.', 1, NULL, NULL),
+(3, 2, 5, 'Túi xách nữ', 'img-pro-03.jpg', 'Malaysia', 632000, 510000, 'Nam sagittis a augue eget scelerisque. Nullam lacinia consectetur sagittis. Nam sed neque id eros fermentum dignissim quis at tortor. Nullam ultricies urna quis sem sagittis pharetra. Nam erat turpis, cursus in ipsum at, tempor imperdiet metus. In interdum id nulla tristique accumsan. Ut semper in quam nec pretium. Donec egestas finibus suscipit. Curabitur tincidunt convallis arcu.', 1, NULL, NULL),
+(4, 3, 5, 'Đồng hồ rolex', 'img-pro-04.jpg', 'Switzerland', 1500000, 0, 'Nam sagittis a augue eget scelerisque. Nullam lacinia consectetur sagittis. Nam sed neque id eros fermentum dignissim quis at tortor. Nullam ultricies urna quis sem sagittis pharetra. Nam erat turpis, cursus in ipsum at, tempor imperdiet metus. In interdum id nulla tristique accumsan. Ut semper in quam nec pretium. Donec egestas finibus suscipit. Curabitur tincidunt convallis arcu.', 0, NULL, NULL),
+(5, 2, 5, 'Đồng hồ rolex', 'img-pro-04.jpg', 'Switzerland', 1500000, 0, 'Nam sagittis a augue eget scelerisque. Nullam lacinia consectetur sagittis. Nam sed neque id eros fermentum dignissim quis at tortor. Nullam ultricies urna quis sem sagittis pharetra. Nam erat turpis, cursus in ipsum at, tempor imperdiet metus. In interdum id nulla tristique accumsan. Ut semper in quam nec pretium. Donec egestas finibus suscipit. Curabitur tincidunt convallis arcu.', 0, NULL, NULL),
+(6, 1, 5, 'Đồng hồ rolex 1', 'img-pro-04.jpg', 'Switzerland', 1500000, 0, 'Nam sagittis a augue eget scelerisque. Nullam lacinia consectetur sagittis. Nam sed neque id eros fermentum dignissim quis at tortor. Nullam ultricies urna quis sem sagittis pharetra. Nam erat turpis, cursus in ipsum at, tempor imperdiet metus. In interdum id nulla tristique accumsan. Ut semper in quam nec pretium. Donec egestas finibus suscipit. Curabitur tincidunt convallis arcu.', 0, NULL, NULL),
+(7, 1, 5, 'Đồng hồ rolex 2', 'img-pro-04.jpg', 'Switzerland', 1500000, 0, 'Nam sagittis a augue eget scelerisque. Nullam lacinia consectetur sagittis. Nam sed neque id eros fermentum dignissim quis at tortor. Nullam ultricies urna quis sem sagittis pharetra. Nam erat turpis, cursus in ipsum at, tempor imperdiet metus. In interdum id nulla tristique accumsan. Ut semper in quam nec pretium. Donec egestas finibus suscipit. Curabitur tincidunt convallis arcu.', 0, NULL, NULL),
+(8, 3, 5, 'Đồng hồ rolex 3', 'img-pro-04.jpg', 'Switzerland', 1500000, 0, 'Nam sagittis a augue eget scelerisque. Nullam lacinia consectetur sagittis. Nam sed neque id eros fermentum dignissim quis at tortor. Nullam ultricies urna quis sem sagittis pharetra. Nam erat turpis, cursus in ipsum at, tempor imperdiet metus. In interdum id nulla tristique accumsan. Ut semper in quam nec pretium. Donec egestas finibus suscipit. Curabitur tincidunt convallis arcu.', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -327,64 +333,50 @@ CREATE TABLE IF NOT EXISTS `products_sizes` (
 --
 
 INSERT INTO `products_sizes` (`pro_id`, `size_id`, `created_at`, `updated_at`) VALUES
-(11, 7, '2021-11-06 17:43:46', '2021-11-06 17:43:46'),
-(11, 6, '2021-11-06 17:43:46', '2021-11-06 17:43:46'),
-(11, 5, '2021-11-06 17:43:46', '2021-11-06 17:43:46'),
-(11, 4, '2021-11-06 17:43:46', '2021-11-06 17:43:46'),
-(10, 4, '2021-11-06 17:42:39', '2021-11-06 17:42:39'),
-(9, 2, '2021-11-06 17:41:22', '2021-11-06 17:41:22'),
-(9, 1, '2021-11-06 17:41:22', '2021-11-06 17:41:22'),
-(10, 3, '2021-11-06 17:42:39', '2021-11-06 17:42:39'),
-(10, 2, '2021-11-06 17:42:39', '2021-11-06 17:42:39'),
-(10, 1, '2021-11-06 17:42:39', '2021-11-06 17:42:39'),
-(9, 6, '2021-11-06 17:41:22', '2021-11-06 17:41:22'),
-(9, 5, '2021-11-06 17:41:22', '2021-11-06 17:41:22'),
-(9, 4, '2021-11-06 17:41:22', '2021-11-06 17:41:22'),
-(9, 3, '2021-11-06 17:41:22', '2021-11-06 17:41:22'),
-(12, 6, '2021-11-06 17:44:43', '2021-11-06 17:44:43'),
-(12, 5, '2021-11-06 17:44:43', '2021-11-06 17:44:43'),
-(12, 4, '2021-11-06 17:44:43', '2021-11-06 17:44:43'),
-(12, 3, '2021-11-06 17:44:43', '2021-11-06 17:44:43'),
-(12, 2, '2021-11-06 17:44:43', '2021-11-06 17:44:43'),
-(12, 1, '2021-11-06 17:44:43', '2021-11-06 17:44:43'),
-(14, 2, '2021-11-06 17:49:01', '2021-11-06 17:49:01'),
-(14, 1, '2021-11-06 17:49:01', '2021-11-06 17:49:01'),
-(13, 7, '2021-11-06 17:48:05', '2021-11-06 17:48:05'),
-(13, 5, '2021-11-06 17:48:05', '2021-11-06 17:48:05'),
-(13, 2, '2021-11-06 17:48:05', '2021-11-06 17:48:05'),
-(12, 7, '2021-11-06 17:44:43', '2021-11-06 17:44:43'),
-(15, 2, '2021-11-06 17:51:02', '2021-11-06 17:51:02'),
-(15, 1, '2021-11-06 17:51:02', '2021-11-06 17:51:02'),
-(14, 6, '2021-11-06 17:49:01', '2021-11-06 17:49:01'),
-(14, 5, '2021-11-06 17:49:01', '2021-11-06 17:49:01'),
-(14, 4, '2021-11-06 17:49:01', '2021-11-06 17:49:01'),
-(14, 3, '2021-11-06 17:49:01', '2021-11-06 17:49:01'),
-(16, 3, '2021-11-06 17:52:02', '2021-11-06 17:52:02'),
-(16, 2, '2021-11-06 17:52:02', '2021-11-06 17:52:02'),
-(16, 1, '2021-11-06 17:52:02', '2021-11-06 17:52:02'),
-(15, 7, '2021-11-06 17:51:02', '2021-11-06 17:51:02'),
-(15, 5, '2021-11-06 17:51:02', '2021-11-06 17:51:02'),
-(15, 3, '2021-11-06 17:51:02', '2021-11-06 17:51:02'),
-(18, 1, '2021-11-06 17:53:45', '2021-11-06 17:53:45'),
-(17, 5, '2021-11-06 17:52:54', '2021-11-06 17:52:54'),
-(17, 4, '2021-11-06 17:52:54', '2021-11-06 17:52:54'),
-(17, 3, '2021-11-06 17:52:54', '2021-11-06 17:52:54'),
-(17, 2, '2021-11-06 17:52:54', '2021-11-06 17:52:54'),
-(17, 1, '2021-11-06 17:52:54', '2021-11-06 17:52:54'),
-(18, 2, '2021-11-06 17:53:45', '2021-11-06 17:53:45'),
-(18, 4, '2021-11-06 17:53:45', '2021-11-06 17:53:45'),
-(18, 5, '2021-11-06 17:53:45', '2021-11-06 17:53:45'),
-(19, 1, '2021-11-06 17:55:26', '2021-11-06 17:55:26'),
-(19, 3, '2021-11-06 17:55:26', '2021-11-06 17:55:26'),
-(19, 4, '2021-11-06 17:55:26', '2021-11-06 17:55:26'),
-(19, 5, '2021-11-06 17:55:26', '2021-11-06 17:55:26'),
-(19, 6, '2021-11-06 17:55:26', '2021-11-06 17:55:26'),
-(20, 1, '2021-11-06 17:56:25', '2021-11-06 17:56:25'),
-(20, 2, '2021-11-06 17:56:25', '2021-11-06 17:56:25'),
-(20, 3, '2021-11-06 17:56:25', '2021-11-06 17:56:25'),
-(21, 1, '2021-11-06 17:58:29', '2021-11-06 17:58:29'),
-(21, 2, '2021-11-06 17:58:29', '2021-11-06 17:58:29'),
-(21, 3, '2021-11-06 17:58:29', '2021-11-06 17:58:29');
+(1, 1, NULL, NULL),
+(1, 2, NULL, NULL),
+(1, 3, NULL, NULL),
+(1, 4, NULL, NULL),
+(1, 5, NULL, NULL),
+(2, 1, NULL, NULL),
+(2, 2, NULL, NULL),
+(3, 1, NULL, NULL),
+(3, 2, NULL, NULL),
+(3, 3, NULL, NULL),
+(3, 4, NULL, NULL),
+(3, 5, NULL, NULL),
+(3, 6, NULL, NULL),
+(3, 7, NULL, NULL),
+(4, 1, NULL, NULL),
+(4, 2, NULL, NULL),
+(4, 3, NULL, NULL),
+(4, 4, NULL, NULL),
+(4, 5, NULL, NULL),
+(4, 6, NULL, NULL),
+(5, 1, NULL, NULL),
+(5, 2, NULL, NULL),
+(5, 3, NULL, NULL),
+(5, 4, NULL, NULL),
+(5, 5, NULL, NULL),
+(5, 6, NULL, NULL),
+(6, 1, NULL, NULL),
+(6, 2, NULL, NULL),
+(6, 3, NULL, NULL),
+(6, 4, NULL, NULL),
+(6, 5, NULL, NULL),
+(6, 6, NULL, NULL),
+(7, 1, NULL, NULL),
+(7, 2, NULL, NULL),
+(7, 3, NULL, NULL),
+(7, 4, NULL, NULL),
+(7, 5, NULL, NULL),
+(7, 6, NULL, NULL),
+(8, 1, NULL, NULL),
+(8, 2, NULL, NULL),
+(8, 3, NULL, NULL),
+(8, 4, NULL, NULL),
+(8, 5, NULL, NULL),
+(8, 6, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -411,6 +403,7 @@ CREATE TABLE IF NOT EXISTS `protypes` (
 INSERT INTO `protypes` (`id`, `type_id`, `protype_name`, `protype_image`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Shirts', 'shirt-img.jpg', NULL, NULL),
 (2, 1, 'T-Shirts', 't-shirts-img.jpg', NULL, NULL),
+(3, 1, 'Hot', 'shoes-img.jpg', NULL, NULL),
 (4, 2, 'Shoes', 'shoes-img.jpg', NULL, NULL),
 (5, 3, 'Wallets', 'wallet-img.jpg', NULL, NULL);
 

@@ -11,6 +11,11 @@ use App\Product;
 use App\Manufacture;
 use App\Product_Size;
 use App\Size;
+use App\Comment;
+use App\Account;
+use App\Person;
+use App\Customer;
+
 
 class ProductController extends Controller
 {
@@ -69,8 +74,10 @@ class ProductController extends Controller
         }
         $pro_id = $detail_pro->id;
         $lienquan_pro = Product::where('protype_id','=',$detail_pro->protype_id)->get();
+        $list_comment = Comment::where('pro_id','=',$id)->get();
+        $account = new Account();
         $sizes = Product_Size::join('sizes','products_sizes.size_id','=','sizes.id')->where('products_sizes.pro_id','=',$pro_id)->get();
-        return view('customer.detail',compact('detail_pro','lienquan_pro','sizes'));
+        return view('customer.detail',compact('detail_pro','lienquan_pro','list_comment','sizes','account'));
     } 
     //ADMIN MANAGER 
     //get list product page
@@ -246,5 +253,27 @@ class ProductController extends Controller
         DB::table('products_sizes')->where('pro_id','=',$pro_id)->delete();
         //
     	return redirect(url('admin-page/product/list-product'))->with(['typeMsg'=>'success','msg'=>'Delete successfully !']);
+    }
+    //post comment
+    public function postComment(Request $request){
+        $subString = substr($request->account_id, 36, -36);
+        $account_id = base64_decode($subString);
+        $person = Person::where('account_id','=',$account_id)->first();
+        //
+        $subString1 = substr($request->pro_id, 36, -36);
+        $pro_id = base64_decode($subString1);
+        $product = Product::where('id','=',$pro_id)->first();
+        if($person == null || $product == null) {
+            return redirect('error-system');
+        }
+        //
+        $comment = new Comment();
+        $comment->pro_id = $product->id;
+        $comment->account_id = $account_id;
+        $comment->content = $request->content;
+        $comment->save();
+        //
+        return back()->with(['typeMsg'=>'success','msg'=>'Thanks for your comment !!!']);
+        
     }
 }

@@ -80,6 +80,11 @@ Route::get('/shop/{name?}',[
     'as' => 'shop',
     'uses' => 'ProductController@getListProduct'
 ]);
+// post comment
+Route::post('/post-comment',[
+    'as' => 'postComment',
+    'uses' => 'ProductController@postComment'
+]);
 // CART 
 Route::group(['middleware' => 'CheckCustomerLogin'],function(){	
     //add cart
