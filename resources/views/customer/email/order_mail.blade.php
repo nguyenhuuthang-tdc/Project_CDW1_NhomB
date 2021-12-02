@@ -117,7 +117,7 @@
                                                             <td valign="top" style="color:#585858;width:49%">Price:
                                                             </td>
                                                             <td align="right" valign="top">VND</td>
-                                                            <td align="right" valign="top" style="transform: translateX(15px);">{{ number_format($grand_price,0) }}</td>
+                                                            <td align="right" valign="top" style="transform: translateX(15px);">{{ number_format($grand_price_origin,0) }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td valign="top" style="color:#585858">Shipping cost:</td>
@@ -135,8 +135,8 @@
                                                                 <div style="color:#f27c24;font-weight:bold">VND</div>
                                                             </td>
                                                             <td align="right" valign="top">
-                                                                <?php $grand_price += $ship_cost; ?>
-                                                                <div style="color:#f27c24;font-weight:bold;transform: translateX(15px);">{{ number_format($grand_price,0) }}</div>
+                                                                <?php $grand_price_origin += $ship_cost; ?>
+                                                                <div style="color:#f27c24;font-weight:bold;transform: translateX(15px);">{{ number_format($grand_price_origin,0) }}</div>
                                                             </td>
                                                         </tr>
                                                     </tbody>

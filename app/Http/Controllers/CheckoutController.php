@@ -58,6 +58,7 @@ class CheckoutController extends Controller
             } else {
                 $ship_cost = 0;
             }
+            $grand_price_origin = $grand_price;
             $grand_price += $ship_cost;
             $order = new Order();
             $order->customer_id = $customer->id;
@@ -82,14 +83,14 @@ class CheckoutController extends Controller
                     $order_item->save();
                 }
             }
-            $this->sendConfirmOrderMail($person, $cart, $grand_price, $ship_cost);
+            $this->sendConfirmOrderMail($person, $cart, $grand_price_origin, $ship_cost);
             session()->forget('cart');
             return redirect(url('/customer/my-account'))->with(['typeMsg'=>'success','msg'=>'Your order is being processed !']);
         }
     }
     // send confirm order email
-    function sendConfirmOrderMail($person, $cart, $grand_price, $ship_cost){
-        $data = array("person" => $person, 'cart' => $cart, "grand_price" => $grand_price, "ship_cost" => $ship_cost);
+    function sendConfirmOrderMail($person, $cart, $grand_price_origin, $ship_cost){
+        $data = array("person" => $person, 'cart' => $cart, "grand_price_origin" => $grand_price_origin, "ship_cost" => $ship_cost);
         $email = $person->email;
         Mail::send('customer.email.order_mail',$data,function($message) use ($email){
             $message->to($email)->subject("Confirm Mail");
