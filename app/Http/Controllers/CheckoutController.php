@@ -15,6 +15,7 @@ use App\Order_Item;
 use App\Cart;
 use App\Size;
 use Auth;
+use Mail;
 
 class CheckoutController extends Controller
 {
@@ -53,8 +54,11 @@ class CheckoutController extends Controller
             $person = Person::where('account_id','=',$account->id)->first();
             $customer = Customer::where('person_id','=',$person->id)->first();
             if($customer->type != 'vip') {
-                $grand_price += 20000;
+                $ship_cost = 20000;    
+            } else {
+                $ship_cost = 0;
             }
+            $grand_price += $ship_cost;
             $order = new Order();
             $order->customer_id = $customer->id;
             $order->total_quantity = $grand_total;
@@ -78,8 +82,18 @@ class CheckoutController extends Controller
                     $order_item->save();
                 }
             }
+            $this->sendConfirmOrderMail($person, $cart, $grand_price, $ship_cost);
             session()->forget('cart');
-            return redirect(url('/home'))->with(['typeMsg'=>'success','msg'=>'Your order is being processed !']);
+            return redirect(url('/customer/my-account'))->with(['typeMsg'=>'success','msg'=>'Your order is being processed !']);
         }
+    }
+    // send confirm order email
+    function sendConfirmOrderMail($person, $cart, $grand_price, $ship_cost){
+        $data = array("person" => $person, 'cart' => $cart, "grand_price" => $grand_price, "ship_cost" => $ship_cost);
+        $email = $person->email;
+        Mail::send('customer.email.order_mail',$data,function($message) use ($email){
+            $message->to($email)->subject("Confirm Mail");
+            $message->from("luxurywatches.shoponline@gmail.com","TCLM Shop");
+        });
     }
 }

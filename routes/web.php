@@ -118,6 +118,11 @@ Route::group(['middleware' => 'CheckCustomerLogin'],function(){
         'as' => 'postCheckout',
         'uses' => 'CheckoutController@postCheckout'
     ]);
+    // send confirm order mail
+    Route::get('/send-order-mail',[
+        'as' => 'sendOrderMail',
+        'uses' => 'CheckoutController@sendConfirmOrderMail'
+    ]);
     //CUSTOMER
     Route::group(['prefix' => 'customer'],function() {	
         // return my-account page
