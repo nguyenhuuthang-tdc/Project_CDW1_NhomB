@@ -18,6 +18,8 @@ class CreateCustomersTable extends Migration
             $table->unsignedInteger('person_id');
             $table->foreign('person_id')->references('id')->on('persons');
             $table->string('type');
+            $table->string('status');
+            $table->string('token');
             $table->timestamps();
         });
     }

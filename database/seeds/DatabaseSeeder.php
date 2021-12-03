@@ -190,7 +190,7 @@ class Admin extends Seeder {
 class Customer extends Seeder {
     public function run() {
         DB::table('customers')->insert([
-            ['person_id'=>'1','type'=>'normal'],
+            ['person_id'=>'1','type'=>'normal','status' => 1, 'token' => '6PPD1ON1RE'],
         ]);
     }
 }
