@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Account;
 use App\Product;
 use App\Person;
@@ -59,11 +60,27 @@ class CustomerController extends Controller
         $person->email = $request->email;
         $person->save();
         // add customer 
+        $token = strtoupper(Str::random(20));
         $customer = Customer::getInstance();
         $customer->person_id = $person->id;
         $customer->type = "normal";
+        $customer->status = 0;
+        $customer->token = $token;
         $customer->save();
-        return back()->with(['typeMsg'=>'success','msg'=>'Your account has been created !!!']);
+        $this->sendVerifyMail($customer, $person, $request->email);
+        return redirect('/login-page')->with(['typeMsg'=>'success','msg'=>'Your account has been created, Please verify in your email !!!']);
+    }
+    //active account customer 
+    public function activeAccountCustomer($customer_id, $token) {
+        //lấy thông tin customer by id 
+        $customer = Customer::where('id','=',$customer_id)->first();
+        if($customer->token == $token) {
+            $customer->status = 1;
+            $customer->save();
+            return redirect('/login-page')->with(['typeMsg'=>'success','msg'=>'Verify account successfully !!!']);
+        } else {
+            return redirect('/login-page')->with(['typeMsg'=>'danger','msg'=>'Your verification was wrong !!!']);
+        }
     }
     // return myaccount page
     public function getMyAccount() {
@@ -181,11 +198,19 @@ class CustomerController extends Controller
             return back()->with(['typeMsg' => 'danger','msg' => 'Incorrect old password !!!']);
         }
     }
-    // ham gui email
+    // ham gui email xac nhan doi mat khau
     function sendConfirmMail($name, $email, $old_pass, $new_pass){
         $data = array("name" => $name, 'old_pass' => $old_pass, 'new_pass' => $new_pass);
         Mail::send('customer.email.change_pass_mail',$data,function($message) use ($email){
             $message->to($email)->subject("Confirm Mail");
+            $message->from("luxurywatches.shoponline@gmail.com","TCLM Shop");
+        });
+    }
+    // ham gui email xac thuc tao tai khoan
+    function sendVerifyMail($customer, $person, $email){
+        $data = array("customer" => $customer, "person" => $person, 'email' => $email);
+        Mail::send('customer.email.verify_mail',$data,function($message) use ($email){
+            $message->to($email)->subject("Verify Mail");
             $message->from("luxurywatches.shoponline@gmail.com","TCLM Shop");
         });
     }

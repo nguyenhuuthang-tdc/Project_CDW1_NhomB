@@ -32,6 +32,11 @@ Route::group(['middleware' => 'CheckExistCustomerLogin'],function(){
         'as' => 'postRegister',
         'uses' => 'CustomerController@postRegisterCustomer'
     ]);
+    //active account
+    Route::get('actived/{customer_id}/{token}',[
+        'as' => 'activeAccount',
+        'uses' => 'CustomerController@activeAccountCustomer'
+    ]);
 });
 //Logout
 Route::get('logout-customer',[

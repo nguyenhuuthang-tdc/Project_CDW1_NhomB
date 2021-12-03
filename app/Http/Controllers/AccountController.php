@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Account;
+use App\Person;
+use App\Customer;
 use Auth;
 use Hash;
 
@@ -34,10 +36,15 @@ class AccountController extends Controller
         ];
         if(Auth::guard('account_customer')->attempt($data)) {
             if($account->role == "customer") {
+                $person = Person::where('account_id','=',$account->id)->first();
+                $customer = Customer::where('person_id','=',$person->id)->first();
+                if($customer->status == 0) {
+                    Auth::guard('account_customer')->logout();
+                    return back()->with(['typeMsg' => 'danger','msg' => 'Your account has not been activated, please verify it in your email !!!']);
+                }
                 return redirect('home');
             }
             else {
-                Auth::guard('account_customer')->logout();
                 return back()->with(['typeMsg' => 'danger','msg' => 'You are not customer, please login at Admin page !!!']);
             }
         }
