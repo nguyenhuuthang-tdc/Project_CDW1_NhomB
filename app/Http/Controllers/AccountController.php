@@ -37,6 +37,7 @@ class AccountController extends Controller
                 return redirect('home');
             }
             else {
+                Auth::guard('account_customer')->logout();
                 return back()->with(['typeMsg' => 'danger','msg' => 'You are not customer, please login at Admin page !!!']);
             }
         }
