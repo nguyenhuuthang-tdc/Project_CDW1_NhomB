@@ -165,11 +165,6 @@ Route::group(['middleware' => 'CheckCustomerLogin'],function(){
             'as' => 'getCustomerCancelOrder',
             'uses' => 'OrderController@getCancelOrder'
         ]);
-        //send mail
-        Route::get('/send-mail',[
-            'as' => 'sendMail',
-            'uses' => 'CustomerController@sendConfirmMail'
-        ]);
     });
 });
 //error customer

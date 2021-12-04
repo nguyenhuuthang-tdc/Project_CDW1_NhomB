@@ -186,25 +186,11 @@ class CustomerController extends Controller
             // set up data and send mail
             $name = $person->full_name;
             $email = $person->email;
-            $new_password = $request->newpassword;
-            $old_password = $request->oldpassword;
-            $split_pass = substr($new_password,strlen($new_password) - 2,2);
-            $permitted_chars = '************';
-            $result = substr(str_shuffle($permitted_chars), 0, 8) . $split_pass;
-            $this->sendConfirmMail($name,$email,$old_password,$result);
             Auth::guard('account_customer')->logout();
             return redirect('/login-page')->with(['typeMsg' => 'success','msg' => 'Change password successfully !!!']);
         } else {
             return back()->with(['typeMsg' => 'danger','msg' => 'Incorrect old password !!!']);
         }
-    }
-    // ham gui email xac nhan doi mat khau
-    function sendConfirmMail($name, $email, $old_pass, $new_pass){
-        $data = array("name" => $name, 'old_pass' => $old_pass, 'new_pass' => $new_pass);
-        Mail::send('customer.email.change_pass_mail',$data,function($message) use ($email){
-            $message->to($email)->subject("Confirm Mail");
-            $message->from("luxurywatches.shoponline@gmail.com","TCLM Shop");
-        });
     }
     // ham gui email xac thuc tao tai khoan
     function sendVerifyMail($customer, $person, $email){
