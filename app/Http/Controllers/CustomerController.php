@@ -171,6 +171,12 @@ class CustomerController extends Controller
                 'repassword.max'=>'Password must not exceed 20 characters',
 			]
 		);
+        $subString = substr($request->id, 36, -36);
+        $id = base64_decode($subString);
+        $account = Account::where(DB::raw('md5(id)'),'=',md5($id))->first();
+        if($account == null) {
+            return redirect('/error-system');
+        }
         $account = Auth::guard('account_customer')->user();
         $user_name = $account->user_name;
         //

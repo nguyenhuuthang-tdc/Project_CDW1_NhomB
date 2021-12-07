@@ -20,7 +20,14 @@
             <h1>Edit Password</h1>
                 <form class="form-horizontal" role="form" method="post" action="{{ route('postCustomerEditPassword') }}">
                     @csrf
-                    <input type="hidden" name="id" value="{{ Auth::guard('account_customer')->user()->id }}">
+                    <?php
+                    $permitted_chars = '+-=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    $string5 = substr(str_shuffle($permitted_chars), 0, 36);
+                    $string6 = substr(str_shuffle($permitted_chars), 0, 36);
+                    $id = Auth::guard('account_customer')->user()->id;
+                    $result3 = $string5 . base64_encode($id) . $string6;
+                    ?>
+                    <input type="hidden" name="id" value="{{ $result3 }}">
                     <div class="form-group">
                         <label  class="col-lg-2 control-label">Old Password</label>
                         <div class="col-lg-12">
