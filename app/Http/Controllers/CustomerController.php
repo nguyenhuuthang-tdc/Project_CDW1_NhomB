@@ -75,9 +75,13 @@ class CustomerController extends Controller
         //lấy thông tin customer by id 
         $customer = Customer::where('id','=',$customer_id)->first();
         if($customer->token == $token) {
-            $customer->status = 1;
-            $customer->save();
-            return redirect('/login-page')->with(['typeMsg'=>'success','msg'=>'Verify account successfully !!!']);
+            if($customer->status != 0) {
+                return redirect('/error-system');
+            } else {
+                $customer->status = 1;
+                $customer->save();
+                return redirect('/login-page')->with(['typeMsg'=>'success','msg'=>'Verify account successfully !!!']);
+            } 
         } else {
             return redirect('/login-page')->with(['typeMsg'=>'danger','msg'=>'Your verification was wrong !!!']);
         }
