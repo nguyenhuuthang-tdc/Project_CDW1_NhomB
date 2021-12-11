@@ -17,16 +17,11 @@ class Customer extends Model
         }
         return self::$_instance;
     }
-    //
-    public function person() {
-        return $this->belongsTo('App\Person','id','person_id');
-    }
-    //
-    public function order() {
-        return $this->hasMany('App\Order','id','customer_id');
-    }
-    //
     public function getCustomerByPersonId($id) {
+        $flag = is_integer($id);
+        if($flag == false || $id < 1) {
+            return false;
+        }
         $customer = DB::table('customers')->where('person_id','=',$id)->first();
         return $customer;
     }
