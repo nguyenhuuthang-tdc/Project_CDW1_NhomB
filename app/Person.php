@@ -19,19 +19,11 @@ class Person extends Model
         return self::$_instance;
     }
     //
-    public function account() {
-        return $this->belongsTo('App\Account','id','account_id');
-    }
-    //
-    public function customer() {
-        return $this->hasOne('App\Customer','id','person_id');
-    }
-    //
-    public function admin() {
-        return $this->hasOne('App\Admin','id','person_id');
-    }
-    //
     public function getPersonByAccountId($id) {
+        $flag = is_integer($id);
+        if($flag == false || $id < 1) {
+            return false;
+        }
         $person = DB::table('persons')->where('account_id','=',$id)->first();
         return $person;
     }

@@ -13,14 +13,6 @@ class Protype extends Model
         return $protype;
     }
     //
-    public function type() {
-        return $this->belongsTo('App\Type','type_id','type_id');
-    }
-    //
-    public function products() {
-        return $this->hasMany('App\Product','id','protype_id');
-    }
-    //
     public function getProtypeNameById($protype_id) {
         $protype = DB::table('protypes')->where('id','=',$protype_id)->first();
         return $protype;
