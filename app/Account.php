@@ -44,15 +44,6 @@ class Account extends Authenticatable
      *
      * @var array
      */
-
-
-    public function person() {
-        return $this->hasOne(Person::class);
-    }
-    //
-    public function comment() {
-        return $this->hasMany('App\Comment','id','account_id');
-    }
     //get Account by Id
     public function getAccountById($account_id) {
         $account = DB::table('accounts')->where('id','=',$account_id)->first();

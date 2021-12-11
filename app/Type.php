@@ -8,10 +8,6 @@ class Type extends Model
 {
     protected $table = "types";
     //
-    public function protype() {
-        return $this->hasMany('App\Protype','type_id','type_id');
-    }
-    //
     public function getTypeNameById($type_id) {
         $type = DB::table('types')->where('type_id','=',$type_id)->first();
         return $type;
