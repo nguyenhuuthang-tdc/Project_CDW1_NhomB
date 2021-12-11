@@ -24,7 +24,7 @@ class ProtypeModelTest extends TestCase
        $actual = $ProtypeModel->getProtypeByTypeId($id);
        $this->assertEquals($expected, $actual);
    }
-   //
+   //a
    public function testGetProtypeByTypeIdNullId()
    {
        $ProtypeModel = new Protype();
