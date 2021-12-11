@@ -10,6 +10,7 @@
       <file>./Tests/CustomerModelTest.php</file>
       <file>./Tests/PersonModelTest.php</file>
       <file>./Tests/ProtypeModelTest.php</file>
+      <file>./Tests/ProductModelTest.php</file>
     </testsuite>
   </testsuites>
   <php>

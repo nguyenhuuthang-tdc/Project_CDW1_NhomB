@@ -23,6 +23,10 @@ class Product extends Model
     }
     //get product by id
     public function getProductById($id) {
+        $flag = is_integer($id);
+        if($flag == false || $id < 1) {
+            return false;
+        }
         $product = DB::table('products')->where('id','=',$id)->first();
         return $product;
     }
