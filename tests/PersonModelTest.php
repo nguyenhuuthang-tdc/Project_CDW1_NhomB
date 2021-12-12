@@ -24,7 +24,7 @@ class PersonModelTest extends TestCase
        $actual = $PersonModel->getPersonByAccountId($id);
        $this->assertEquals($expected, $actual);
     }
-    //
+    // test not ok
     public function testFindPersonByAccountIdNotGood()
     {
         $PersonModel = Person::getInstance();
