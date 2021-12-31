@@ -1,0 +1,49 @@
+Ví dụ 			
+Tài khoản 1	https://github.com/nguyenhuuthang-tdc/taikhoan1
+Email: nguyenhuuthang12c8@gmail.com
+Username: nguyenhuuthang-tdc
+			
+Tài khoản 2	https://github.com/nguyenhuuthang-tt5/taikhoan2
+Email: 	nguyenhuuthang12c4@gmail.com
+Username: nguyenhuuthang-tt5
+
+cd ~/.ssh
+
+
+ssh-keygen -t rsa -C "nguyenhuuthang12c8@gmail.com" -f "id_rsa_nguyenhuuthang-tdc"
+ssh-keygen -t rsa -C "nguyenhuuthang12c4@gmail.com" -f "id_rsa_nguyenhuuthang-tt5"
+
+pwd
+touch config        
+
+Host github.com-nguyenhuuthang-tdc
+HostName github.com
+User git
+IdentityFile ~/.ssh/id_rsa_nguyenhuuthang-tdc
+
+Host github.com-nguyenhuuthang-tt5
+HostName github.com
+User git
+IdentityFile ~/.ssh/id_rsa_nguyenhuuthang-tt5
+
+
+eval "$(ssh-agent -s)"
+ssh-add -D
+ssh-add -l
+
+ssh-add ~/.ssh/id_rsa_nguyenhuuthang-tdc
+ssh-add ~/.ssh/id_rsa_nguyenhuuthang-tt5
+
+mở file pub copy ssh key (quan trọng)
+clone repo về 
+
+git config user.name "nguyenhuuthang-tdc"
+git config user.email "nguyenhuuthang12c8@gmail.com"
+git remote set-url origin git@github.com-nguyenhuuthang-tdc:nguyenhuuthang-tdc/taikhoan1.git
+
+
+git config user.name "nguyenhuuthang-tt5"
+git config user.email "nguyenhuuthang12c4@gmail.com"
+git remote set-url origin git@github.com-nguyenhuuthang-tt5:nguyenhuuthang-tt5/taikhoan2.git
+
+
